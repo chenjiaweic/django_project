@@ -8,17 +8,17 @@
     <form action="/news_search" method="post">
         {% csrf_token %}
 		<select name="news_type">
-			<option value="all" 
+			<option value="all"
 			    {% ifequal news_type "all" %}
                 {% autoescape off %}selected="selected"{% endautoescape %}
                 {% endifequal %}
 			>所有</option>
-			<option value="itnews" 
+			<option value="itnews"
 			    {% ifequal news_type "itnews" %}
                 {% autoescape off %}selected="selected"{% endautoescape %}
                 {% endifequal %}
 			>博客园新闻</option>
-			<option value="sinanews" 
+			<option value="sinanews"
 		        {% ifequal news_type "sinanews" %}
 		        {% autoescape off %}selected="selected"{% endautoescape %}
 			    {% endifequal %}
@@ -27,29 +27,29 @@
 		<input type="text" name="keyword" placeholder="请输入关键字" value={{keyword}}>
 		<input type="submit" value="Submit"><br/><br/>
 		<span style="font-size:80%;color:#663333">日期 </span>
-		<input type="date" name="date_start" value={{date_start}}> -- 
+		<input type="date" name="date_start" value={{date_start}}> --
 		<input type="date" name="date_end" value={{date_end}}><br/>
 		<!--<input type="text" name="date_start" placeholder="2018-01-01"> - <input type="text" name="date_end" placeholder="2018-12-31"><br/>-->
-		<input type="radio" name="sort_type" value="desc" 
+		<input type="radio" name="sort_type" value="desc"
 		    {% ifequal order -1 %}
             {% autoescape off %}checked="checked"{% endautoescape %}
             {% endifequal %}
 		>
 		<span style="font-size:80%;color:#433434">按时间降序</span>
-		<input type="radio" name="sort_type" value="asc" 
+		<input type="radio" name="sort_type" value="asc"
 		    {% ifequal order 1 %}
             {% autoescape off %}checked="checked"{% endautoescape %}
             {% endifequal %}
 		>
 		<span style="font-size:80%;color:#433434">按时间升序</span><br/><br/>
     </form>
- 
+
     <span  style="font-size:100%;color:#999999">{{ rlt }}</span>
 	<ul>
 	{% for post in posts %}
 	{% autoescape off %}{{post}}{% endautoescape %}
 	{% endfor %}
-	</ul> 
-	
+	</ul>
+
 </body>
 </html>

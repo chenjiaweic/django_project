@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
- 
+
 from django.shortcuts import render
 from django.views.decorators import csrf
 from . import get_itnews_data
- 
+
 # 接收POST请求数据
 def search_post(request):
     ctx ={}
