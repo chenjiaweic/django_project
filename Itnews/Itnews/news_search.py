@@ -23,10 +23,12 @@ def search_post(request):
         ctx['date_end'] = date_end
         print('date_s', date_start, 'date_e', date_end)
         infos = get_itnews_data.get_infos(keyword, date_start, date_end, news_type, order)
-        ctx['posts'] = []
-        for info in infos:
-                ctx['posts'].append(info['post'])
-        ctx['rlt'] = keyword + '的搜索结果, ' + '共%d条。'%len(ctx['posts'])
+        ctx['itnews_posts'] = []
+        ctx['sinanews_posts'] = []
+        for info in infos['itnews']:
+                ctx['itnews_posts'].append(info['post'])
+        for info in infos['sinanews']:
+                ctx['sinanews_posts'].append(info['post'])
+        ctx['rlt'] = keyword + '的搜索结果, ' + '共%d条。' % (len(ctx['itnews_posts'])+len(ctx['sinanews_posts']))
 
     return render(request, "post.html", ctx)
-

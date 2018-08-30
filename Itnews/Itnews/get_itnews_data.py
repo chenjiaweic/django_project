@@ -35,11 +35,11 @@ def get_sinanews(keyword, date_start, date_end, order):
 
 #根据news_type返回所选择类型的新闻信息
 def get_infos(keyword, date_start, date_end, news_type, order):
-    infos = []
+    infos = {'itnews': [], 'sinanews': []}
     if news_type=='itnews' or news_type=='all':
-        infos = infos + get_itnews(keyword, date_start, date_end, order)
+        infos['itnews'] = get_itnews(keyword, date_start, date_end, order)
     if news_type=='sinanews' or news_type=='all':
-        infos = infos + get_sinanews(keyword, date_start, date_end, order)
+        infos['sinanews'] = get_sinanews(keyword, date_start, date_end, order)
     return infos
 
 

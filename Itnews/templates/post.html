@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>新闻搜索</title>
 </head>
-<body>
+<body background="/static/bgp.jpg">
     <form action="/news_search" method="post">
         {% csrf_token %}
 		<select name="news_type">
@@ -45,11 +45,22 @@
     </form>
 
     <span  style="font-size:100%;color:#999999">{{ rlt }}</span>
+	<details class="menu" open>
+		<summary style="color:#FF33FF">博客园新闻</summary>
 	<ul>
-	{% for post in posts %}
+	{% for post in itnews_posts %}
 	{% autoescape off %}{{post}}{% endautoescape %}
 	{% endfor %}
 	</ul>
+	</details>
+	<details class="menu" open>
+		<summary style="color:#FF33FF">新浪新闻</summary>
+	<ul>
+	{% for post in sinanews_posts %}
+	{% autoescape off %}{{post}}{% endautoescape %}
+	{% endfor %}
+	</ul>
+	</details>
 
 </body>
 </html>
