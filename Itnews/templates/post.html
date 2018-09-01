@@ -4,63 +4,159 @@
 <meta charset="utf-8">
 <title>新闻搜索</title>
 </head>
-<body background="/static/bgp.jpg">
-    <form action="/news_search" method="post">
-        {% csrf_token %}
-		<select name="news_type">
-			<option value="all"
-			    {% ifequal news_type "all" %}
-                {% autoescape off %}selected="selected"{% endautoescape %}
-                {% endifequal %}
-			>所有</option>
-			<option value="itnews"
-			    {% ifequal news_type "itnews" %}
-                {% autoescape off %}selected="selected"{% endautoescape %}
-                {% endifequal %}
-			>博客园新闻</option>
-			<option value="sinanews"
-		        {% ifequal news_type "sinanews" %}
-		        {% autoescape off %}selected="selected"{% endautoescape %}
-			    {% endifequal %}
-			>新浪新闻</option>
-		</select>
-		<input type="text" name="keyword" placeholder="请输入关键字" value={{keyword}}>
-		<input type="submit" value="Submit"><br/><br/>
-		<span style="font-size:80%;color:#663333">日期 </span>
-		<input type="date" name="date_start" value={{date_start}}> --
-		<input type="date" name="date_end" value={{date_end}}><br/>
-		<!--<input type="text" name="date_start" placeholder="2018-01-01"> - <input type="text" name="date_end" placeholder="2018-12-31"><br/>-->
-		<input type="radio" name="sort_type" value="desc"
-		    {% ifequal order -1 %}
-            {% autoescape off %}checked="checked"{% endautoescape %}
-            {% endifequal %}
-		>
-		<span style="font-size:80%;color:#433434">按时间降序</span>
-		<input type="radio" name="sort_type" value="asc"
-		    {% ifequal order 1 %}
-            {% autoescape off %}checked="checked"{% endautoescape %}
-            {% endifequal %}
-		>
-		<span style="font-size:80%;color:#433434">按时间升序</span><br/><br/>
-    </form>
+<style type="text/css">
+.bg {
+	background-image:url(/static/{{bgp}});
+    background-size: cover;
+    background-attachment: fixed;
+    width: 100%;
+    height: 9999px;
+    position: relative;
+    background-position: 0px 0px;
+}
+.content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top:0;
+    bottom: 0;
+	background: rgba(255,255,255,{{bgp_tr}});
+}
+.comment_num {
+    display: inline-block;
+    width: 50px;
+    //height: 30px;
+    //line-height: 20px;
+    margin-right: 20px;
+    text-align: center;
+    vertical-align: middle;
+    font-family: Arial, Verdana, Sans-serif;
+    font-size: 90%;
+    color: #234;
+	background-color: rgba(199,199,199,0.3);
+    //background: url(/static/comment.png) no-repeat;
+}
+.option_style {
+    font-size: 80%;
+    color: #633;
+}
+.news_title {
+    font-size: 100%;
+    text-decoration:none;
+}
+.news_class {
+    font-family: "Courier New", Arial;
+    font-size: 110%;
+    color: #f00;
+}
+.news_posttime {
+    font-size: 80%;
+    color: #222;
+}
+.news_resultnum {
+    font-family: Arial;
+    font-size: 100%;
+    color: #888;
+}
+.itnews_color {
+    color: #633;
+}
+.sinanews_color {
+    color: #f0c;
+}
+.tencentnews_color {
+    color: #4000a0;
+}
 
-    <span  style="font-size:100%;color:#999999">{{ rlt }}</span>
-	<details class="menu" open>
-		<summary style="color:#FF33FF">博客园新闻</summary>
-	<ul>
-	{% for post in itnews_posts %}
-	{% autoescape off %}{{post}}{% endautoescape %}
-	{% endfor %}
-	</ul>
-	</details>
-	<details class="menu" open>
-		<summary style="color:#FF33FF">新浪新闻</summary>
-	<ul>
-	{% for post in sinanews_posts %}
-	{% autoescape off %}{{post}}{% endautoescape %}
-	{% endfor %}
-	</ul>
-	</details>
+</style>
+<!--<body style="background-image:url(/static/fsn.jpg);background-repeat:no-repeat;background-position:0px 0px;background-color:#666666;opacity:1;background-attachment:fixed;">-->
+<body>
+	<div class="bg">
+		<div class="content">
+			<form action="/news_search" method="post">
+				{% csrf_token %}
+				<select name="news_type">
+					<option value="all"
+			            {% ifequal news_type "all" %}
+			            {% autoescape off %}selected="selected"{% endautoescape %}
+			            {% endifequal %}
+			        >所有</option>
+					<option value="itnews"
+			            {% ifequal news_type "itnews" %}
+			            {% autoescape off %}selected="selected"{% endautoescape %}
+			            {% endifequal %}
+			        >博客园新闻</option>
+					<option value="sinanews"
+			            {% ifequal news_type "sinanews" %}
+			            {% autoescape off %}selected="selected"{% endautoescape %}
+			            {% endifequal %}
+			        >新浪新闻</option>
+					<option value="tencentnews"
+			            {% ifequal news_type "tencentnews" %}
+			            {% autoescape off %}selected="selected"{% endautoescape %}
+			            {% endifequal %}
+			        >腾讯新闻</option>
+				</select>
+				<input type="text" name="keyword" placeholder="请输入关键字" value={{keyword}}>
+				<input type="submit" value="Submit" style="margin-right: 1100px;" >
+				<select name="bgp">
+				    <option value="random_bgp"
+				        {% ifequal bgp_type "random_bgp" %}
+				        {% autoescape off %}selected="selected"{% endautoescape %}
+				        {% endifequal %}
+				    >随机背景</option>
+				    <option value="fixed_bgp"
+				        {% ifequal bgp_type "fixed_bgp" %}
+				        {% autoescape off %}selected="selected"{% endautoescape %}
+				        {% endifequal %}
+				    >固定背景</option>
+				</select><br/><br/>
+				<span style="font-size:80%;color:#663333">日期 </span>
+				<input type="date" name="date_start" value={{date_start}}> --
+				<input type="date" name="date_end" value={{date_end}}>
+				<!--<input type="text" name="date_start" placeholder="2018-01-01"> - <input type="text" name="date_end" placeholder="2018-12-31"><br/>-->
+				<span class="option_style">评论数过滤</span><input type="number" name="comment_num" min="0" max="99999" value={{comment_num}}>
+				<br/>
+				<input type="radio" name="sort_type" value="desc"
+										 {% ifequal order -1 %}
+										 {% autoescape off %}checked="checked"{% endautoescape %}
+										 {% endifequal %}
+										 >
+				<span style="font-size:80%;color:#433434">按时间降序</span>
+				<input type="radio" name="sort_type" value="asc"
+										 {% ifequal order 1 %}
+										 {% autoescape off %}checked="checked"{% endautoescape %}
+										 {% endifequal %}
+										 >
+			    <span style="font-size:80%;color:#433434">按时间升序</span><br/><br/>
+			</form>
 
+			<span class="news_resultnum">{{ rlt }}</span><br/><br/>
+			<details class="menu" open>
+				<summary class="news_class">博客园新闻</summary>
+				<ul>
+					{% for post in itnews_posts %}
+					{% autoescape off %}{{post}}{% endautoescape %}
+					{% endfor %}
+				</ul>
+			</details>
+			<details class="menu" open>
+				<summary class="news_class">新浪新闻</summary>
+				<ul>
+					{% for post in sinanews_posts %}
+					{% autoescape off %}{{post}}{% endautoescape %}
+					{% endfor %}
+				</ul>
+			</details>
+			<details class="menu" open>
+				<summary class="news_class">腾讯新闻</summary>
+				<ul>
+					{% for post in tencentnews_posts %}
+					{% autoescape off %}{{post}}{% endautoescape %}
+					{% endfor %}
+				</ul>
+			</details>
+		</div>
+	</div>
 </body>
 </html>
