@@ -1,6 +1,7 @@
 <h1 style="font-family: arial; font-size:500%">Welcome</h1>
 <form action="/news_search" method="post">
 	{% csrf_token %}
-	<input style="font-family:arial; color:#f0c; font-size:150%;" type="submit" value="新闻搜索">
+	<input style="font-family:arial; color:#f0c; font-size:150%;" type="submit" name="news_search" value="新闻搜索">
+	<input style="font-family:arial; color:#f0c; font-size:150%;" type="submit" name="douban_movie" value="douban">
 
 </form>

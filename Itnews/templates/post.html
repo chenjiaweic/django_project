@@ -42,7 +42,7 @@
 }
 .news_title {
     font-size: 100%;
-    text-decoration:none;
+    text-decoration: none;
 }
 .news_class {
     font-family: "Courier New", Arial;
@@ -67,6 +67,14 @@
 .tencentnews_color {
     color: #4000a0;
 }
+.friend_link {
+    font-family: Arial;
+    font-size: 89%;
+    color: #202;
+	text-decoration: none;
+    margin-left: 5px;
+    margin-right: 5px;
+}
 
 </style>
 <!--<body style="background-image:url(/static/fsn.jpg);background-repeat:no-repeat;background-position:0px 0px;background-color:#666666;opacity:1;background-attachment:fixed;">-->
@@ -75,6 +83,28 @@
 		<div class="content">
 			<form action="/news_search" method="post">
 				{% csrf_token %}
+				<input style="font-family:arial; color:#f0c; font-size:100%; margin-right: 850px;" type="submit" name="homepage" value="返回主页">
+				<span style="font-family:arial; color:#117; font-size:80%;">友情链接 ==&gt; </span>
+				<span><a class="friend_link" target="_blank" href="https://github.com/chenjiaweic">我的github<a></span>
+				<span>|</span>
+				<span><a class="friend_link" target="_blank" href="https://www.runoob.com/">菜鸟教程<a></span>
+				<span>|</span>
+				<span><a class="friend_link" target="_blank" href="https://translate.google.cn/">google翻译<a></span>
+				<span>|</span>
+				<span><a class="friend_link" style="margin-right: 20px" target="_blank" href="http://cha.buyiju.com/tool/color.html">颜色代码表<a></span><a></a>
+				<select name="bgp">
+				    <option value="random_bgp"
+				        {% ifequal bgp_type "random_bgp" %}
+				        {% autoescape off %}selected="selected"{% endautoescape %}
+				        {% endifequal %}
+				    >随机背景</option>
+				    <option value="fixed_bgp"
+				        {% ifequal bgp_type "fixed_bgp" %}
+				        {% autoescape off %}selected="selected"{% endautoescape %}
+				        {% endifequal %}
+				    >固定背景</option>
+				</select>
+				<br/><br/>
 				<select name="news_type">
 					<option value="all"
 			            {% ifequal news_type "all" %}
@@ -98,19 +128,8 @@
 			        >腾讯新闻</option>
 				</select>
 				<input type="text" name="keyword" placeholder="请输入关键字" value={{keyword}}>
-				<input type="submit" value="Submit" style="margin-right: 1100px;" >
-				<select name="bgp">
-				    <option value="random_bgp"
-				        {% ifequal bgp_type "random_bgp" %}
-				        {% autoescape off %}selected="selected"{% endautoescape %}
-				        {% endifequal %}
-				    >随机背景</option>
-				    <option value="fixed_bgp"
-				        {% ifequal bgp_type "fixed_bgp" %}
-				        {% autoescape off %}selected="selected"{% endautoescape %}
-				        {% endifequal %}
-				    >固定背景</option>
-				</select><br/><br/>
+				<input name="news_search" type="submit" value="Submit" style="font-weight:600; margin-right:100px;" >
+				<br/><br/>
 				<span style="font-size:80%;color:#663333">日期 </span>
 				<input type="date" name="date_start" value={{date_start}}> --
 				<input type="date" name="date_end" value={{date_end}}>
